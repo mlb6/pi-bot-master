@@ -6,10 +6,13 @@ def no_abort(a, b, c):
     sys.__excepthook__(a, b, c)
 sys.excepthook = no_abort
 
-pi_sites = {'PiShop (US)' : 'https://www.pishop.us/',
-                         'Sparkfun': 'https://www.sparkfun.com/',
-                         'OKDO': 'https://www.odko.com/',
-                         'Adafruit': 'https://www.adafruit.com'}
+pi_sites = {
+  'PiShop (US)' : 'https://www.pishop.us/',
+  'PiShop (CA)' : 'https://www.pishop.ca/',
+  'Sparkfun': 'https://www.sparkfun.com/',
+  'OKDO': 'https://www.odko.com/',
+  'Adafruit': 'https://www.adafruit.com'
+}
 
 def get_shopify_url(name):
     return pi_sites[name]
@@ -125,7 +128,7 @@ class CreateDialog(QtWidgets.QDialog):
         self.link.setStyleSheet(
             "outline: 0;border: 1px solid #60a8ce;border-width: 0 0 2px;color: rgb(234, 239, 239);")
         self.link.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
-        self.link.setPlaceholderText("PiShop.US Link")
+        self.link.setPlaceholderText("PiShop link")
         self.link.setFont(font)
         self.link.setVisible(False)
 
@@ -229,7 +232,7 @@ class CreateDialog(QtWidgets.QDialog):
             else:
                 for it in self.custom_items[item]['items']:
                     self.base_items[item]['items'][it] = self.custom_items[item]['items'][it]
-        site_list = ['Adafruit', 'OKDO', 'PiShop (US)', 'Sparkfun', 'Shopify Drop']
+        site_list = ['Adafruit', 'OKDO', 'PiShop (CA)', 'PiShop (US)', 'Sparkfun', 'Shopify Drop']
         for site in self.base_items:
             if site not in site_list:
                 site_list.append(site)
@@ -254,7 +257,7 @@ class CreateDialog(QtWidgets.QDialog):
             self.link.setVisible(True)
             self.link.setText(task_tab.product)
             self.link.setPlaceholderText('Sparkfun PID')
-        elif 'PiShop' in self.site_box.currentText():
+        elif 'PiShop (CA)' in self.site_box.currentText() or 'PiShop (US)' in self.site_box.currentText():
             self.captcha_box.setVisible(True)
             self.account_user.setVisible(False)
             self.account_pass.setVisible(False)
@@ -318,7 +321,7 @@ class CreateDialog(QtWidgets.QDialog):
         self.mode_box.setVisible(False)
         self.size_edit.setVisible(False)
         self.info_edit.setVisible(False)
-        if 'PiShop' in self.site_box.currentText():
+        if 'PiShop (CA)' in self.site_box.currentText() or 'PiShop (US)' in self.site_box.currentText():
             self.info_edit.setVisible(False)
             self.shopify_select.setVisible(False)
             self.link.setVisible(True)

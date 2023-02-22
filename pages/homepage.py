@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from sites.adafruit import Adafruit
 from sites.okdo import Okdo
-from sites.pishop import PiShop
+from sites.pishop import PiShopUS, PiShopCA
 from sites.shop import Shop
 from pages.createdialog import CreateDialog
 from sites.shopsafe import Shopsafe
@@ -451,7 +451,7 @@ class TaskTab(QtWidgets.QWidget):
             self.product = self.edit_dialog.link.text()
             self.info = self.edit_dialog.link.text()
             self.size = f'{self.edit_dialog.account_user.text()}|{self.edit_dialog.account_pass.text()}'
-        elif 'PiShop' in self.site or 'OKDO' in self.site or 'Adafruit' in self.site:
+        elif 'PiShop (CA)' in self.site or 'PiShop (US)' in self.site or 'OKDO' in self.site or 'Adafruit' in self.site:
             self.product = self.edit_dialog.link.text()
             self.info = self.edit_dialog.link.text()
             self.size = ''
@@ -509,8 +509,11 @@ class TaskThread(QtCore.QThread):
         if proxy == None:
             self.status_signal.emit({"msg":"Invalid proxy list","status":"error"})
             return
-        if 'PiShop' in self.site:
-            PiShop(self.task_id, self.status_signal, self.product_signal, self.product, self.info, self.size, profile,
+        if 'PiShop (CA)' in self.site:
+            PiShopCA(self.task_id, self.status_signal, self.product_signal, self.product, self.info, self.size, profile,
+                 proxy, self.monitor_delay, self.error_delay,self.captcha_type, self.qty)
+        elif 'PiShop (US)' in self.site:
+            PiShopUS(self.task_id, self.status_signal, self.product_signal, self.product, self.info, self.size, profile,
                  proxy, self.monitor_delay, self.error_delay,self.captcha_type, self.qty)
         elif 'Sparkfun' in self.site:
             account_info = self.size.split('|')

@@ -159,7 +159,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def create_task(self):
         site = self.createdialog.site_box.currentText()
         mode = ''
-        if 'PiShop' in site:
+        if 'PiShop (CA)' in site:
+            product = self.createdialog.link.text()
+            size = ''
+            info = self.createdialog.link.text()
+        elif 'PiShop (US)' in site:
             product = self.createdialog.link.text()
             size = ''
             info = self.createdialog.link.text()
